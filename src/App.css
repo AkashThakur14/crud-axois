@@ -1,0 +1,61 @@
+.post-list {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: decimal inside; 
+  padding-left: 40px;
+  margin: 0;
+  gap: 20px; 
+}
+
+.post-item {
+  flex: 1 1 300px;  
+  max-width: 32%;   
+  box-sizing: border-box;
+  padding: 20px;
+  border: 2px solid #333;
+  border-radius: 8px;
+  background: #fff;
+  margin-left: 20px;
+}
+
+.post-item h1 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.post-item p {
+  color: #555;
+}
+
+.edit-btn {
+  background: #4caf50;
+  color: white;
+  padding: 8px 12px;
+  margin-right: 8px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.delete-btn {
+  background: #f44336;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+@media (max-width: 992px) {
+  .post-item {
+    max-width: 48%;
+  }
+}
+
+
+@media (max-width: 600px) {
+  .post-item {
+    max-width: 100%;
+  }
+}
