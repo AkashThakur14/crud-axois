@@ -19,3 +19,11 @@ return(
   api.delete(`/posts/${id}`)
 )
 }
+
+//Post Method
+
+export const dataPost = (post) =>{
+  return(
+    api.post('/posts', post)
+  )
+}

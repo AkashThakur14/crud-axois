@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getPost } from "./api/PostApi";
 import { deletePost } from "./api/PostApi";
+import Form from "./components/Form";
 
 const App = () => {
 
@@ -41,22 +42,28 @@ const App = () => {
 
 
   return (
-    <section className="main-section">
-      <ol className="post-list">
-        {
-          postData.map((currEle) => {
-            return (
-              <li className="post-item" key={currEle.id}>
-                <h1>{currEle.title}</h1>
-                <p>{currEle.body}</p>
-                <button className="edit-btn">Edit</button>
-                <button className="delete-btn" onClick={() => handelDeletePost(currEle.id)}>Delete</button>
-              </li>
-            )
-          })
-        }
-      </ol>
-    </section>
+    <div className="main-container">
+      <section className="form-sec">
+        <Form postData={postData} setPostData={setPostData} />
+      </section>
+
+      <section>
+        <ol className="post-list">
+          {
+            postData.map((currEle) => {
+              return (
+                <li className="post-item" key={currEle.id}>
+                  <h1>{currEle.title}</h1>
+                  <p>{currEle.body}</p>
+                  <button className="edit-btn">Edit</button>
+                  <button className="delete-btn" onClick={() => handelDeletePost(currEle.id)}>Delete</button>
+                </li>
+              )
+            })
+          }
+        </ol>
+      </section>
+    </div>
   )
 }
 
