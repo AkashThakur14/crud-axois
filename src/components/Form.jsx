@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { dataPost } from "../api/PostApi";
 
-const Form = () => {
+const Form = ({ postData, setPostData }) => {
   const [addData, setAddData] = useState({
     title: "",
     body: ""
@@ -8,7 +9,6 @@ const Form = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-
     setAddData((prev) => {
       return {
         ...prev,
@@ -17,8 +17,29 @@ const Form = () => {
     });
   };
 
+  const addPostData = async () => {
+    try {
+      const res = await dataPost(addData);
+      console.log("Post API Response:", res);
+
+      if (res.status === 201) {   
+        setPostData([...postData, res.data]); 
+
+        setAddData({title:" ",body:" "})
+
+      }
+    } catch (error) {
+      console.error("Error adding post:", error);
+    }
+  };
+
+  const handleSubmitForm = (e) => {
+    e.preventDefault();
+    addPostData();
+  };
+
   return (
-    <form>
+    <form onSubmit={handleSubmitForm}>
       <div>
         <label htmlFor="title"></label>
         <input
