@@ -27,3 +27,5 @@ export const dataPost = (post) =>{
     api.post('/posts', post)
   )
 }
+
+//Update Method

@@ -1,11 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { dataPost } from "../api/PostApi";
 
-const Form = ({ postData, setPostData }) => {
+const Form = ({ postData, setPostData, updateDataApi, setUpdateDataApi }) => {
   const [addData, setAddData] = useState({
     title: "",
     body: ""
   });
+
+  //get the update data and add into input field
+
+  useEffect(()=>{
+updateDataApi && setAddData({
+  title:updateDataApi.title || "",
+  body:updateDataApi.body || ""
+})
+  },[updateDataApi])
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
