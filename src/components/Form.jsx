@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-import { dataPost } from "../api/PostApi";
+import { dataPost, updatePost } from "../api/PostApi";
+
+
 
 const Form = ({ postData, setPostData, updateDataApi, setUpdateDataApi }) => {
   const [addData, setAddData] = useState({
@@ -7,14 +9,17 @@ const Form = ({ postData, setPostData, updateDataApi, setUpdateDataApi }) => {
     body: ""
   });
 
+  let isEmpty = Object.keys(updateDataApi).length === 0;
+
+
   //get the update data and add into input field
 
-  useEffect(()=>{
-updateDataApi && setAddData({
-  title:updateDataApi.title || "",
-  body:updateDataApi.body || ""
-})
-  },[updateDataApi])
+  useEffect(() => {
+    updateDataApi && setAddData({
+      title: updateDataApi.title || "",
+      body: updateDataApi.body || ""
+    })
+  }, [updateDataApi])
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -31,20 +36,50 @@ updateDataApi && setAddData({
       const res = await dataPost(addData);
       console.log("Post API Response:", res);
 
-      if (res.status === 201) {   
-        setPostData([...postData, res.data]); 
-
-        setAddData({title:" ",body:" "})
-
+      if (res.status === 201) {
+        setPostData([...postData, res.data]);
+        setAddData({ title: " ", body: " " })
       }
     } catch (error) {
-      console.error("Error adding post:", error);
+      console.log("Error adding post:", error);
     }
   };
 
+  //update post data
+  const updatePostData = async () => {
+    try {
+      const res = await updatePost(updateDataApi.id, addData);
+      console.log(res)
+
+      if (res.status === 200) {
+        setPostData((prev) => {
+          return (
+            prev.map((currEle) => {
+              return (
+                currEle.id === res.data.id ? res.data : currEle
+              )
+            })
+          )
+        })
+        setAddData({ title: " ", body: " " })
+        setUpdateDataApi({})
+
+      }
+
+    } catch (error) {
+      console.log("Error: ", error)
+    }
+  }
+
   const handleSubmitForm = (e) => {
     e.preventDefault();
-    addPostData();
+    const action = e.nativeEvent.submitter.value;
+    if (action === "Add") {
+      addPostData();
+    } else if (action === "Edit") {
+      updatePostData();
+    }
+
   };
 
   return (
@@ -73,7 +108,7 @@ updateDataApi && setAddData({
           onChange={handleInputChange}
         />
       </div>
-      <button type="submit">Add</button>
+      <button type="submit" value={isEmpty ? "Add" : "Edit"}>{isEmpty ? "Add" : "Edit"}</button>
     </form>
   );
 };

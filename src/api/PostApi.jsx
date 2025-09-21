@@ -28,4 +28,10 @@ export const dataPost = (post) =>{
   )
 }
 
-//Update Method
+// put Update Method
+export const updatePost = (id, post) =>{
+  return(
+    api.put(`/posts/${id}`, post)
+  )
+}
+
